@@ -31,27 +31,27 @@ onMounted(async () => {
   }
 });
 
-async function createTask(data: Item) {
+function createTask(data: Item) {
   try {
-    await addDoc(collection(db, "tasks"), data);
+    addDoc(collection(db, "tasks"), data);
   } catch (error) {
     console.error('Error adding document: ', error);
   }
 }
 
-async function updateTask(data: Item) {
+function updateTask(data: Item) {
   try {
     const docRef = doc(db, "tasks", data.id);
-    await updateDoc(docRef, data);
+    updateDoc(docRef, data);
   } catch (error) {
     console.error('Error updating document: ', error);
   }
 }
 
-async function deleteTask(data: Item) {
+function deleteTask(data: Item) {
   try {
     const docRef = doc(db, "tasks", data.id);
-    await deleteDoc(docRef);
+    deleteDoc(docRef);
   } catch (error) {
     console.error('Error deleting document: ', error);
   }

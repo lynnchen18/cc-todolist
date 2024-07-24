@@ -45,16 +45,16 @@ onMounted(async () => {
   });
 })
 
-async function createTask(task: Item) {
+function createTask(task: Item) {
   tasksModule.insert(task)
 }
 
-async function updateTask(task: Item) {
+function updateTask(task: Item) {
   const docTask = tasksModule.doc(task.id)
   docTask.replace(task)
 }
 
-async function deleteTask(task: Item) {
+function deleteTask(task: Item) {
   tasksModule.delete(task.id)
 }
 </script>
