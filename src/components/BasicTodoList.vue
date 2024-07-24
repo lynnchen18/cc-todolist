@@ -8,31 +8,28 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { reactive } from "vue";
+import { onMounted, ref } from "vue";
 import TodoList from "./TodoList.vue";
 
 type Item = { title: string; id: string; isDone: boolean };
 
-const taskItems = reactive<Item[]>([]);
+const taskItems = ref<Item[]>([]);
 
-async function readTasks() {
+onMounted(async () => {
   try {
     const docRef = await getDocs(collection(db, "tasks"));
-    while (taskItems.length) {
-      taskItems.pop();
-    }
     docRef.forEach((doc) => {
       const item: Item = {
         title: doc.data().title,
         id: doc.id,
         isDone: doc.data().isDone,
       };
-      taskItems.push(item);
+      taskItems.value.push(item);
     });
   } catch (error) {
     console.error('Error getting documents: ', error);
   }
-}
+});
 
 async function createTask(data: Item) {
   try {
@@ -40,7 +37,6 @@ async function createTask(data: Item) {
   } catch (error) {
     console.error('Error adding document: ', error);
   }
-  readTasks();
 }
 
 async function updateTask(data: Item) {
@@ -50,7 +46,6 @@ async function updateTask(data: Item) {
   } catch (error) {
     console.error('Error updating document: ', error);
   }
-  readTasks();
 }
 
 async function deleteTask(data: Item) {
@@ -60,10 +55,7 @@ async function deleteTask(data: Item) {
   } catch (error) {
     console.error('Error deleting document: ', error);
   }
-  readTasks();
 }
-
-readTasks();
 </script>
 
 <template>
