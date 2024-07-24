@@ -34,7 +34,7 @@ async function readTasks() {
   }
 }
 
-async function createTask(data: any) {
+async function createTask(data: Item) {
   try {
     await addDoc(collection(db, "tasks"), data);
   } catch (error) {
@@ -43,7 +43,7 @@ async function createTask(data: any) {
   readTasks();
 }
 
-async function updateTask(data: any) {
+async function updateTask(data: Item) {
   try {
     const docRef = doc(db, "tasks", data.id);
     await updateDoc(docRef, data);
@@ -53,7 +53,7 @@ async function updateTask(data: any) {
   readTasks();
 }
 
-async function deleteTask(data: any) {
+async function deleteTask(data: Item) {
   try {
     const docRef = doc(db, "tasks", data.id);
     await deleteDoc(docRef);
