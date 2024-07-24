@@ -17,16 +17,16 @@ const taskItems = ref<Item[]>([]);
 
 function generateRandomId () { return doc(collection(db, 'random')).id }
 
-const remote = PluginFirestore({ db })
+const local = PluginFirestore({ db })
 
 const cache = PluginVue3({ generateRandomId })
 
 const magnetar = Magnetar({
-  stores: { cache, remote },
+  stores: { cache, local },
   executionOrder: {
-    read: ['cache', 'remote'],
-    write: ['cache', 'remote'],
-    delete: ['cache', 'remote'],
+    read: ['cache', 'local'],
+    write: ['cache', 'local'],
+    delete: ['cache', 'local'],
   },
   on: { success: logger }, // disable this on production builds
 })
