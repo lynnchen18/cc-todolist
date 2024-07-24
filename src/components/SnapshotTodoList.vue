@@ -20,8 +20,8 @@ type Item = { title: string; id: string; isDone: boolean };
 
 const taskItems = reactive<Item[]>([]);
 
-const q = query(collection(db, "tasks"), where("title", "!=", null));
-const unsubscribeTasks = onSnapshot(q, (querySnapshot) => {
+const queryAllTasks = query(collection(db, "tasks"), where("title", "!=", null));
+const unsubscribeTasks = onSnapshot(queryAllTasks, (querySnapshot) => {
   while (taskItems.length) {
     taskItems.pop();
   }
