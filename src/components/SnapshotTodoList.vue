@@ -20,8 +20,8 @@ type Item = { title: string; id: string; isDone: boolean };
 
 const taskItems = reactive<Item[]>([]);
 
-const q = query(collection(db, "tasks"), where("title", "!=", null));
-const unsubscribeTasks = onSnapshot(q, (querySnapshot) => {
+const queryAllTasks = query(collection(db, "tasks"), where("title", "!=", null));
+const unsubscribeTasks = onSnapshot(queryAllTasks, (querySnapshot) => {
   while (taskItems.length) {
     taskItems.pop();
   }
@@ -39,7 +39,7 @@ onBeforeUnmount(() => {
   unsubscribeTasks();
 });
 
-async function createTask(data: any) {
+async function createTask(data: Item) {
   try {
     await addDoc(collection(db, "tasks"), data);
   } catch (error) {
@@ -47,7 +47,7 @@ async function createTask(data: any) {
   }
 }
 
-async function updateTask(data: any) {
+async function updateTask(data: Item) {
   try {
     const docRef = doc(db, "tasks", data.id);
     await updateDoc(docRef, data);
@@ -56,7 +56,7 @@ async function updateTask(data: any) {
   }
 }
 
-async function deleteTask(data: any) {
+async function deleteTask(data: Item) {
   try {
     const docRef = doc(db, "tasks", data.id);
     await deleteDoc(docRef);
